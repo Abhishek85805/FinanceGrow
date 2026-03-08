@@ -7,14 +7,16 @@ dotenv.config();
 
 const port = process.env.PORT || 4000;
 
+//middleware
+app.use(express.json());
+
 app.get("/health", (req, res) => {
     res.status(200).json({
         message: "Server is running fine!"
     })
 })
 
-const router = Router();
-router.use("/auth", authRouter);
+app.use("/auth", authRouter);
 
 app.listen(port, () =>  {
     console.log(`Listening on port ${port}`);
