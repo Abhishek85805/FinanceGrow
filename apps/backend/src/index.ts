@@ -10,12 +10,14 @@ const port = process.env.PORT || 4000;
 //middleware
 app.use(express.json());
 
+//health route
 app.get("/health", (req, res) => {
     res.status(200).json({
         message: "Server is running fine!"
     })
 })
 
+//Routes
 app.use("/auth", authRouter);
 
 app.listen(port, () =>  {

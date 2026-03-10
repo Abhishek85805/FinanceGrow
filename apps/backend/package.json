@@ -17,11 +17,13 @@
     "@repo/types": "^1.0.0",
     "bcrypt": "^6.0.0",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.18.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.1.0",
     "@types/pg": "^8.16.0",
     "dotenv": "^17.2.3",

@@ -1,7 +1,7 @@
 import {prisma} from '../lib/prisma.js';
-import { hashPassword } from "../utils/utils.js";
-import { ConflictError } from "../utils/httpErrors.js";
-import type { RegisterSchema } from '@repo/types';
+import { comparePassword, hashPassword, generateToken } from "../utils/utils.js";
+import { ConflictError, NotFoundError, UnauthorizedRequestError } from "../utils/httpErrors.js";
+import type { RegisterSchema, LoginSchema } from '@repo/types';
 
 export async function register(userData: RegisterSchema){
     //Verify whether user with same email already exist
@@ -26,10 +26,38 @@ export async function register(userData: RegisterSchema){
         },
     });
 
-    // return safe user object (omit password)
+    // return user
     return {
+        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
     };
+}
+
+export async function login(userData: LoginSchema){
+    //check whether email exist 
+    const user = await prisma.user.findFirst({
+        where: {
+            email: userData.email,
+        }
+    });
+    if(!user){
+        throw new NotFoundError("Email doesn't exist");
+    }
+
+    //check if password is correct
+    const isPasswordCorrect = await comparePassword(user.password, userData.password);
+    if(!isPasswordCorrect){
+        throw new UnauthorizedRequestError("Incorrect Password");
+    }
+
+    //generate token
+    const token = generateToken({userId: user.id});
+
+    //return token back
+    return {
+        user,
+        token
+    }
 }
