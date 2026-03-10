@@ -14,6 +14,20 @@ export class ConflictError extends HttpError {
     }
 }
 
+export class NotFoundError extends HttpError {
+    constructor(message = 'Not Found'){
+        super(message, 404);
+        Object.setPrototypeOf(this, NotFoundError.prototype);
+    }
+}
+
+export class UnauthorizedRequestError extends HttpError {
+    constructor(message = 'Unauthorized'){
+        super(message, 401);
+        Object.setPrototypeOf(this, UnauthorizedRequestError.prototype);
+    }
+}
+
 export class BadRequestError extends HttpError {
     constructor(message = 'Bad Request'){
         super(message, 400);
