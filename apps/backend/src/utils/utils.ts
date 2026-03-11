@@ -12,7 +12,7 @@ export async function comparePassword(storedPassword: string, userProvidedPasswo
     return isPasswordCorrect
 }
 
-export function generateToken(payload: {userId: number}){
+export function generateToken(payload: {userId: string}){
     const secretKey = process.env.SECRET_KEY ?? "asdfasfsdf";
     const tokenExpiryTime = (process.env.TOKEN_EXPIRY_TIME ?? "1h") as StringValue;
 
